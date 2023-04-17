@@ -52,6 +52,26 @@ class BookTestCase(unittest.TestCase):
 
     # @TODO: Write tests for search - at minimum two
     #        that check a response when there are results and when there are none
+    def test_200_for_search(self):
+        bookID = 5
+        res = self.client().get("/books/"+str(bookID))
+        data = json.loads(res.data)
+        book = Book.query.filter(Book.id == bookID).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"],True)
+        self.assertEqual(book.format()["id"],bookID)
+
+    def test_404_for_search(self):
+        bookID = 1000
+        res = self.client().get("/books/"+str(bookID))
+        data = json.loads(res.data)
+        book = Book.query.filter(Book.id == bookID).one_or_none()
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data["success"],False)
+        self.assertEqual(book.format()["id"],None)
+        self.assertEqual(data["message"],"resource not found")
 
     def test_update_book_rating(self):
         bookID = 16
