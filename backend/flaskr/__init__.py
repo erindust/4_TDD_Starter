@@ -41,7 +41,7 @@ def create_app(test_config=None):
     def retrieve_books():
         body = request.get_json()
         # search = body.get("search")
-        try:
+        # try:
             # if search:
                 # selection = Book.query.order_by(Book.id).filter(
                 #         Book.title.ilike("%{}%".format(search))
@@ -57,21 +57,21 @@ def create_app(test_config=None):
 
 
             # else:    
-                selection = Book.query.order_by(Book.id).all()
-                current_books = paginate_books(request, selection)
+        selection = Book.query.order_by(Book.id).all()
+        current_books = paginate_books(request, selection)
 
-                if len(current_books) == 0:
-                    abort(404)
+        if len(current_books) == 0:
+            abort(404)
 
-                return jsonify(
-                    {
-                        "success": True,
-                        "books": current_books,
-                        "total_books": len(Book.query.all()),
-                    }
-                )
-        except:
-            abort(422)
+        return jsonify(
+            {
+                "success": True,
+                "books": current_books,
+                "total_books": len(Book.query.all()),
+            }
+        )
+        # except:
+        #     abort(422)
 
     @app.route("/books/<int:book_id>", methods=["PATCH"])
     def update_book(book_id):
@@ -129,6 +129,7 @@ def create_app(test_config=None):
         new_author = body.get("author", None)
         new_rating = body.get("rating", None)
         search = body.get("search",None)
+        print(search)
 
         try:
             if search:
