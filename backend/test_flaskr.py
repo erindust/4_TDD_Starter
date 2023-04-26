@@ -59,7 +59,8 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"],True)
         self.assertTrue(data["total_books"])
-        self.assertEqual(len(data["books"]),6)
+        # self.assertEqual(len(data["books"]),6)
+        self.assertEqual(data['total_books'],6)
 
     def test_get_book_search_without_results(self):
         res = self.client().post("/books", json={"search": "Games"})
